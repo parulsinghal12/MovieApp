@@ -8,6 +8,7 @@ data class MovieListDto (
 
     val page: Int,
 
+    @SerialName("results")
     val movieList: List<MovieDto>,
 
     @SerialName("total_pages")

@@ -9,7 +9,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(SingletonComponent::class) //parul:TODO: change it to Viewmodelcomponent
 abstract class MovieDataSourceModule {
 
     @Binds

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     kotlin("kapt")
     alias(libs.plugins.hilt)
+    kotlin("plugin.serialization") version embeddedKotlinVersion // plugin for serialization compiler
 }
 
 android {

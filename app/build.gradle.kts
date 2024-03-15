@@ -53,9 +53,7 @@ android {
 
 dependencies {
 
-    // add module
-    //api(project.p
-    //api(projects.core.model)
+    implementation(project(mapOf("path" to ":data")))
     implementation(project(mapOf("path" to ":presentation")))
 
     implementation(libs.androidx.core.ktx)
