@@ -7,7 +7,9 @@ import com.example.data.model.MovieListDto
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.test.runBlockingTest
+import junit.framework.TestCase.fail
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +28,7 @@ class TestMovieDataSourceImpl {
     }
 
     @Test
-    fun `getMovies returns success`() = runBlockingTest {
+    fun `getMovies returns success`() = runTest {
         val mockMovieDataString = getJson("mocked_movies.json")
         val mockMovieData = json.decodeFromString<MovieListDto>(mockMovieDataString)
         val expectedMovieList = mockMovieData.toDomainMovieList() // Use the extension function to convert to domain model
@@ -34,12 +36,15 @@ class TestMovieDataSourceImpl {
         // Mock API response
         coEvery { apiService.getMovies(BuildConfig.API_KEY) } returns Response.success(mockMovieData)
 
-        // Call the data source
-        val result = movieDataSource.getMovies()
+        // Collecting
+        val result = movieDataSource.getMovies().toList()
 
-        // Assertions
-        assert(result.isSuccess)
-        assertEquals(expectedMovieList, result.getOrNull())
+        // Assert that the result contains the expected success value
+        assert(result.size == 1) // Ensure there's exactly one emission
+        when (val successResult = result.first()) {
+            is com.example.domain.usecase.Response.Success -> assertEquals(expectedMovieList, successResult.data) // Validate success content
+            else -> fail("Expected Success, got $successResult")
+        }
     }
 
 

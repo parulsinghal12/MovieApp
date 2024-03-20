@@ -10,7 +10,7 @@ fun MovieDto.toDomainMovie () : Movie {
         originalLanguage = originalLanguage,
         overview = overview,
         popularity = popularity,
-        posterPath = posterPath,
+        posterPath = "https://image.tmdb.org/t/p/w500/$posterPath",
         releaseDate = releaseDate,
         title = title,
         rating = rating,

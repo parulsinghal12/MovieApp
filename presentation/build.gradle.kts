@@ -70,4 +70,13 @@ dependencies {
     //Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    //coil for image
+    implementation(libs.coil.compose)
+
+    //navigation
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    //HiltView model usage in compose
+    implementation(libs.androidx.hilt.navigation.compose)
 }

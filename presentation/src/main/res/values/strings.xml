@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">presentation</string>
+    <string name="app_name">Popular Movies</string>
+    <string name="overview">Overview</string>
+    <string name="loading">Loading…</string>
+    <string name="voting_avg">Voting average</string>
+    <string name="voting_count">Vote count</string>
 </resources>

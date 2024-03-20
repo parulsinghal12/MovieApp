@@ -1,49 +1,49 @@
 {
-  "page": 1,
-  "results": [
+  "page":1,
+  "results":[
     {
-      "adult": false,
-      "backdrop_path": "/gJL5kp5FMopB2sN4WZYnNT5uO0u.jpg",
-      "genre_ids": [
+      "adult":false,
+      "backdrop_path":"/gJL5kp5FMopB2sN4WZYnNT5uO0u.jpg",
+      "genre_ids":[
         28,
         12,
         16,
         35,
         10751
       ],
-      "id": 1011985,
-      "original_language": "en",
-      "original_title": "Kung Fu Panda 4",
-      "overview": "Po is gearing up to become the spiritual leader of his Valley of Peace, but also needs someone to take his place as Dragon Warrior. As such, he will train a new kung fu practitioner for the spot and will encounter a villain called the Chameleon who conjures villains from the past.",
-      "popularity": 1652.671,
-      "poster_path": "/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg",
-      "release_date": "2024-03-02",
-      "title": "Kung Fu Panda 4",
-      "video": false,
-      "vote_average": 7,
-      "vote_count": 74
+      "id":1011985,
+      "original_language":"en",
+      "original_title":"Kung Fu Panda 4",
+      "overview":"Po is gearing up to become the spiritual leader of his Valley of Peace, but also needs someone to take his place as Dragon Warrior. As such, he will train a new kung fu practitioner for the spot and will encounter a villain called the Chameleon who conjures villains from the past.",
+      "popularity":1652.671,
+      "poster_path":"/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg",
+      "release_date":"2024-03-02",
+      "title":"Kung Fu Panda 4",
+      "video":false,
+      "vote_average":7,
+      "vote_count":74
     },
     {
-      "adult": false,
-      "backdrop_path": "/xvk5AhfhgQcTuaCQyq3XqAnhEma.jpg",
-      "genre_ids": [
+      "adult":false,
+      "backdrop_path":"/xvk5AhfhgQcTuaCQyq3XqAnhEma.jpg",
+      "genre_ids":[
         28,
         12,
         35
       ],
-      "id": 848538,
-      "original_language": "en",
-      "original_title": "Argylle",
-      "overview": "When the plots of reclusive author Elly Conway's fictional espionage novels begin to mirror the covert actions of a real-life spy organization, quiet evenings at home become a thing of the past. Accompanied by her cat Alfie and Aiden, a cat-allergic spy, Elly races across the world to stay one step ahead of the killers as the line between Conway's fictional world and her real one begins to blur.",
-      "popularity": 1636.918,
-      "poster_path": "/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg",
-      "release_date": "2024-01-31",
-      "title": "Argylle",
-      "video": false,
-      "vote_average": 6.118,
-      "vote_count": 514
+      "id":848538,
+      "original_language":"en",
+      "original_title":"Argylle",
+      "overview":"When the plots of reclusive author Elly Conway's fictional espionage novels begin to mirror the covert actions of a real-life spy organization, quiet evenings at home become a thing of the past. Accompanied by her cat Alfie and Aiden, a cat-allergic spy, Elly races across the world to stay one step ahead of the killers as the line between Conway's fictional world and her real one begins to blur.",
+      "popularity":1636.918,
+      "poster_path":"/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg",
+      "release_date":"2024-01-31",
+      "title":"Argylle",
+      "video":false,
+      "vote_average":6.118,
+      "vote_count":514
     }
   ],
-  "total_pages": 42969,
-  "total_results": 859363
+  "total_pages":42969,
+  "total_results":859363
 }
