@@ -123,13 +123,13 @@ fun MovieAttribute(label: String, value: String) {
     Row(verticalAlignment = Alignment.Top ) {
         CustomTextViewBold(
             text = "$label: ",
-            style = MaterialTheme.typography.bodyLarge.copy(color = Color.DarkGray),
+            style = MaterialTheme.typography.bodyLarge.copy(color = DarkGray),
             modifier = Modifier.padding(bottom = 4.dp)
         )
         CustomTextView(
             text = value,
             style = MaterialTheme.typography.bodyLarge,
-            color = Color.DarkGray
+            color = DarkGray
         )
     }
     Spacer(modifier = Modifier.height(4.dp))
