@@ -23,7 +23,7 @@ import com.example.presentation.ui.components.CustomTextView
 import com.example.presentation.ui.components.CustomTextViewBold
 
 @Composable
-fun MovieItem(movie: MovieUiModel, selectedMovie: (Int, String) -> Unit) {
+fun MovieItem(movie: MovieUiModel, selectedMovie: (Int) -> Unit) {
 
     Card(
         modifier = Modifier
@@ -36,9 +36,9 @@ fun MovieItem(movie: MovieUiModel, selectedMovie: (Int, String) -> Unit) {
 
         Column(
             modifier = Modifier
-                .clickable { selectedMovie(movie.id, movie.title) }
+                .clickable { selectedMovie(movie.id) }
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(1.dp)
         ) {
             CustomImageView(
                 data = movie.posterPath,
@@ -103,5 +103,5 @@ fun PreviewMovieItem() {
         rating = 8.5,
         voteCount = 1234)
 
-    MovieItem(movie = mockMovie, selectedMovie = { _, _ -> } )
+    MovieItem(movie = mockMovie, selectedMovie = { _ -> } )
 }

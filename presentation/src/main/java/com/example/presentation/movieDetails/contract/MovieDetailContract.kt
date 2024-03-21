@@ -1,9 +1,10 @@
-package com.example.presentation.movieList.contract
+package com.example.presentation.movieDetails.contract
 
 import com.example.presentation.contract.MVIContract
 import com.example.presentation.model.MovieListUiModel
+import com.example.presentation.movieList.contract.MovieListContract
 
-interface MovieListContract : MVIContract<MovieListContract.ViewState, MovieListContract.ViewIntent, MovieListContract.SideEffect> {
+interface MovieDetailContract: MVIContract<MovieDetailContract.ViewState, MovieDetailContract.ViewIntent, MovieDetailContract.SideEffect> {
     sealed interface ViewState {
         object Loading : ViewState
         data class Success(val data: MovieListUiModel) : ViewState
@@ -11,12 +12,10 @@ interface MovieListContract : MVIContract<MovieListContract.ViewState, MovieList
     }
 
     sealed interface ViewIntent {
-        object GetMoviesList : ViewIntent
-        data class OnMovieItemClicked(val movieId: Int) : ViewIntent
+        object GetMovieDetails : ViewIntent
     }
 
     sealed interface SideEffect {
-        data class NavigateToDetailsScreen(val movieId: Int) : SideEffect
+
     }
 }
-

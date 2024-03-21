@@ -35,10 +35,10 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
             is MovieListContract.ViewIntent.GetMoviesList -> getMoviesList()
             is MovieListContract.ViewIntent.OnMovieItemClicked -> {
                 viewModelScope.launch {
+                    //any other operation can also be performed on movie ID or handling analytics that movie item selected.
                     _sideEffect.emit(
                         MovieListContract.SideEffect.NavigateToDetailsScreen(
-                            viewIntent.movieId,
-                            viewIntent.title
+                            viewIntent.movieId
                         )
                     )
                 }

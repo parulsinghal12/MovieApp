@@ -24,7 +24,7 @@ import com.example.presentation.ui.components.CustomTextView
 @Composable
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
-    selectedMovie: (Int, String) -> Unit
+    selectedMovie: (Int) -> Unit
 ) {
     val resultValue = moviesViewModel.viewState.collectAsState()
     val context = LocalContext.current
@@ -34,9 +34,13 @@ fun MoviesScreen(
             MovieListContract.ViewIntent.GetMoviesList
         )
 
-        moviesViewModel.sideEffect.collect {
-            if (it is MovieListContract.SideEffect.NavigateToDetailsScreen) {
-                selectedMovie(it.movieId, it.title)
+        moviesViewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is MovieListContract.SideEffect.NavigateToDetailsScreen -> {
+                    //update selectedMovie lambda fu
+                    selectedMovie(effect.movieId)
+                    //navController.navigate(.createMovieDetailRoute(effect.movieId))
+                }
             }
         }
     })
@@ -62,9 +66,9 @@ fun MoviesScreen(
         }
 
         is MovieListContract.ViewState.Success -> {
-            MoviesListView( movieList = (resultValue.value as MovieListContract.ViewState.Success).data.movies,
-                            selectedMovie = selectedMovie
-            )
+            MoviesListView(movieList = (resultValue.value as MovieListContract.ViewState.Success).data.movies,
+                            selectedMovie = { movieId ->
+                                moviesViewModel.sendEvent(MovieListContract.ViewIntent.OnMovieItemClicked(movieId)) })
         }
     }
 }
