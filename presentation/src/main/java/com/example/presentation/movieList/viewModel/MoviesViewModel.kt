@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetMovieListUsecase
 import com.example.domain.usecase.Response
-import com.example.presentation.contract.MVIContract
 import com.example.presentation.mapper.toMovieListUiModel
 import com.example.presentation.movieList.contract.MovieListContract
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +20,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListUsecase) : ViewModel(), MovieListContract {
 
 
-    private val _state = MutableStateFlow(value = createInitialState())
+    private val _state = MutableStateFlow(value = loadingState())
 
     override val viewState: StateFlow<MovieListContract.ViewState>
         get() = _state.asStateFlow()
@@ -47,7 +46,7 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
         }
     }
 
-    override fun createInitialState(): MovieListContract.ViewState{
+    override fun loadingState(): MovieListContract.ViewState{
         return  MovieListContract.ViewState.Loading
     }
 
@@ -57,7 +56,7 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
             getMovieListUsecase().collect {
                 when (it) {
                     is Response.Failure -> _state.value =
-                        MovieListContract.ViewState.Error(it.message ?: "")
+                        MovieListContract.ViewState.Error(it.message)
 
                     is Response.Success -> _state.value = MovieListContract.ViewState.Success(
                         it.data.toMovieListUiModel()

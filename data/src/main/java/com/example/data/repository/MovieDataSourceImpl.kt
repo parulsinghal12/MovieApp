@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.BuildConfig
 import com.example.data.api.ApiService
+import com.example.data.mapper.toDomainMovieDetail
 import com.example.data.mapper.toDomainMovieList
 import com.example.domain.model.MovieDetail
 import com.example.domain.model.MovieList
@@ -36,21 +37,21 @@ class MovieDataSourceImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getMoviesDetails(movieId: Int): Result<MovieDetail> {
-        return try {
+    override suspend fun getMoviesDetails(movieId: Int): Flow<Response<MovieDetail>> = flow {
+         try {
             val response = apiService.getMovieDetails(movieId, BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    //Result.success(it.toDomainMovi ())
-                    Result.failure(Exception("To be implemented")) // Parul : TODO: send empty data for time being
-                } ?: Result.failure(Exception("Received null response body"))
+                    emit (Response.Success(it.toDomainMovieDetail()))
+                    //Result.failure(Exception("To be implemented")) //send empty data for time being
+                } ?: emit (Response.Failure(("Received null response body")))
             } else {
-                Result.failure(Exception("API call failed with error: ${response.message()}"))
+                emit (Response.Failure(("API call failed with error: ${response.message()}")))
             }
         } catch (e: HttpException) {
-            Result.failure(Exception("Network error: ${e.localizedMessage.orEmpty()}"))
+             emit (Response.Failure(("Network error: ${e.localizedMessage.orEmpty()}")))
         } catch (e: IOException) {
-            Result.failure(Exception("IO error: ${e.localizedMessage.orEmpty()}"))
+             emit (Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}")))
         }
     }
 }

@@ -28,7 +28,7 @@ data class MovieDetailDto(
     val tagline: String,
     val title: String,
     val video: Boolean,
-    @SerialName("vote_average") val voteAverage: Double,
+    @SerialName("vote_average") val rating: Double,
     @SerialName("vote_count") val voteCount: Int
 )
 

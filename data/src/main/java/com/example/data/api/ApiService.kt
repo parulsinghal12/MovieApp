@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("movie/popular")
-    suspend fun getMovies(@Query("api_key") apikey: String): Response<MovieListDto> //parul : note flow is not returned over here, since its not stream of response.
+    suspend fun getMovies(@Query("api_key") apikey: String): Response<MovieListDto>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(@Path("movie_id") movieID: Int, @Query("api_key") apikey: String): Response<MovieDetailDto>

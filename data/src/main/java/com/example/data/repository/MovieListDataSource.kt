@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieDataSource {
     suspend fun getMovies() : Flow<Response<MovieList>>
-    suspend fun getMoviesDetails(movieId: Int) : Result<MovieDetail>
+    suspend fun getMoviesDetails(movieId: Int) : Flow<Response<MovieDetail>>
 }

@@ -13,6 +13,6 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMovies(): Flow<Response<MovieList>> = dataSource.getMovies()
 
-    override suspend fun getMovieDetails(movieID: Int): Result<MovieDetail> = dataSource.getMoviesDetails(movieID)
+    override suspend fun getMovieDetails(movieID: Int): Flow<Response<MovieDetail>> = dataSource.getMoviesDetails(movieID)
 
 }

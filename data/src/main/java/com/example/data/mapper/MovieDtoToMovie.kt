@@ -14,5 +14,6 @@ fun MovieDto.toDomainMovie () : Movie {
         releaseDate = releaseDate,
         title = title,
         rating = rating,
-        voteCount = voteCount)
+        voteCount = voteCount
+    )
 }

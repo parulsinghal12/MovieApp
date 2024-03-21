@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface MVIContract<ViewState, ViewIntent, SideEffect> {
     fun sendEvent(viewIntent: ViewIntent)
-    fun createInitialState(): ViewState
+    fun loadingState(): ViewState
 
     val viewState: StateFlow<ViewState>
 
