@@ -12,7 +12,7 @@ fun MovieDetailDto.toDomainMovieDetail () : MovieDetail {
          id = id,
          originalLanguage = originalLanguage,
          overview = overview,
-         posterPath = posterPath,
+         posterPath = "https://image.tmdb.org/t/p/w500/$posterPath",
          productionCompanies = productionCompanies.map { it.name },
          revenue = revenue,
          runtime = runtime,

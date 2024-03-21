@@ -39,3 +39,18 @@ fun CustomTextViewBold(
         maxLines = maxLines
     )
 }
+
+@Composable
+fun CustomTextViewHeading(
+    text: String,
+    style: TextStyle = MaterialTheme.typography.headlineMedium,
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    Text(
+        text = text,
+        style = style.copy(color = Color.Black, fontWeight = FontWeight.Bold),
+        modifier = modifier,
+        maxLines = maxLines
+    )
+}
