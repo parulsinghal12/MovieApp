@@ -79,4 +79,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     //HiltView model usage in compose
     implementation(libs.androidx.hilt.navigation.compose)
+
+    //Mockk & coroutines testing
+    testImplementation(libs.core.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
