@@ -53,5 +53,5 @@ class MovieDataSourceImpl @Inject constructor(
         } catch (e: IOException) {
              emit (Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}")))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }
