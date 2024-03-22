@@ -2,12 +2,13 @@ package com.example.data.repository
 
 import com.example.data.BuildConfig
 import com.example.data.api.ApiService
+import com.example.data.di.IoDispatcher
 import com.example.data.mapper.toDomainMovieDetail
 import com.example.data.mapper.toDomainMovieList
 import com.example.domain.model.MovieDetail
 import com.example.domain.model.MovieList
 import com.example.domain.usecase.Response
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 class MovieDataSourceImpl @Inject constructor(
     private val apiService: ApiService,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): MovieDataSource {
 
     override suspend fun getMovies(): Flow<Response<MovieList>> = flow {
@@ -35,7 +37,7 @@ class MovieDataSourceImpl @Inject constructor(
         } catch (e: IOException) {
             emit(Response.Failure("IO error: ${e.localizedMessage.orEmpty()}"))
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
     override suspend fun getMoviesDetails(movieId: Int): Flow<Response<MovieDetail>> = flow {
          try {
@@ -53,5 +55,5 @@ class MovieDataSourceImpl @Inject constructor(
         } catch (e: IOException) {
              emit (Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}")))
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 }
