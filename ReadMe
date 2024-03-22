@@ -1,1 +1,5 @@
-Project to list movies.
+Project to list popular movies.
+
+First screen shows list of popular movies.
+
+If any movie is selected from list second screen will be launched showing new content from different api call.
