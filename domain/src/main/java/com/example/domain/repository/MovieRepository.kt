@@ -6,6 +6,6 @@ import com.example.domain.usecase.Response
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    suspend fun getMovies(): Flow<Response<MovieList>>
-    suspend fun getMovieDetails(movieID: Int): Flow<Response<MovieDetail>>
+    suspend fun getMovies(): Response<MovieList>
+    suspend fun getMovieDetails(movieID: Int): Response<MovieDetail>
 }

@@ -45,15 +45,15 @@ class MovieDetailsViewModel @Inject constructor(val getMovieDetailUsecase: GetMo
     private fun getMovieDetail(movieId: Int) {
         viewModelScope.launch {
             _state.value = MovieDetailContract.ViewState.Loading
-            getMovieDetailUsecase(movieId).collect {
-                when (it) {
-                    is Response.Failure ->
-                        _state.value = MovieDetailContract.ViewState.Error(it.message)
+            val response = getMovieDetailUsecase(movieId)
+            when (response) {
+                is Response.Failure ->
+                    _state.value = MovieDetailContract.ViewState.Error(response.message)
 
-                    is Response.Success ->
-                        _state.value = MovieDetailContract.ViewState.Success(it.data.toMovieDetailUiModel())
-                }
+                is Response.Success ->
+                    _state.value = MovieDetailContract.ViewState.Success(response.data.toMovieDetailUiModel())
             }
+
         }
     }
 

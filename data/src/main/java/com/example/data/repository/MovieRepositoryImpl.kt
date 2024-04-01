@@ -11,8 +11,8 @@ class MovieRepositoryImpl @Inject constructor(
     private val dataSource: MovieDataSource,
 ): MovieRepository {
 
-    override suspend fun getMovies(): Flow<Response<MovieList>> = dataSource.getMovies()
+    override suspend fun getMovies(): Response<MovieList> = dataSource.getMovies()
 
-    override suspend fun getMovieDetails(movieID: Int): Flow<Response<MovieDetail>> = dataSource.getMoviesDetails(movieID)
+    override suspend fun getMovieDetails(movieID: Int): Response<MovieDetail> = dataSource.getMoviesDetails(movieID)
 
 }

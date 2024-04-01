@@ -21,39 +21,38 @@ class MovieDataSourceImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): MovieDataSource {
 
-    override suspend fun getMovies(): Flow<Response<MovieList>> = flow {
-        try {
+    override suspend fun getMovies(): Response<MovieList> {
+        return try {
             val response = apiService.getMovies(BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit (Response.Success(it.toDomainMovieList()))
-                } ?:
-                emit (Response.Failure("Received null response body"))
+                     Response.Success(it.toDomainMovieList())
+                } ?: Response.Failure(("Received null response body"))
             } else {
-                emit(Response.Failure("API call failed with error: ${response.message()}"))
+                Response.Failure(("API call failed with error: ${response.message()}"))
             }
         } catch (e: HttpException) {
-            emit(Response.Failure("Network error: ${e.localizedMessage.orEmpty()}"))
+            Response.Failure(("Network error: ${e.localizedMessage.orEmpty()}"))
         } catch (e: IOException) {
-            emit(Response.Failure("IO error: ${e.localizedMessage.orEmpty()}"))
+            Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}"))
         }
-    }.flowOn(ioDispatcher)
+    }
 
-    override suspend fun getMoviesDetails(movieId: Int): Flow<Response<MovieDetail>> = flow {
-         try {
+    override suspend fun getMoviesDetails(movieId: Int): Response<MovieDetail> {
+         return try {
             val response = apiService.getMovieDetails(movieId, BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit (Response.Success(it.toDomainMovieDetail()))
+                    Response.Success(it.toDomainMovieDetail())
                     //Result.failure(Exception("To be implemented")) //send empty data for time being
-                } ?: emit (Response.Failure(("Received null response body")))
+                } ?: Response.Failure(("Received null response body"))
             } else {
-                emit (Response.Failure(("API call failed with error: ${response.message()}")))
+                Response.Failure(("API call failed with error: ${response.message()}"))
             }
         } catch (e: HttpException) {
-             emit (Response.Failure(("Network error: ${e.localizedMessage.orEmpty()}")))
+             Response.Failure(("Network error: ${e.localizedMessage.orEmpty()}"))
         } catch (e: IOException) {
-             emit (Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}")))
+             Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}"))
         }
-    }.flowOn(ioDispatcher)
+    }
 }

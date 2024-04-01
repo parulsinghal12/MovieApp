@@ -53,16 +53,17 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
     private fun getMoviesList() {
         viewModelScope.launch {
             _state.value = MovieListContract.ViewState.Loading
-            getMovieListUsecase().collect {
-                when (it) {
-                    is Response.Failure -> _state.value =
-                        MovieListContract.ViewState.Error(it.message)
 
-                    is Response.Success -> _state.value = MovieListContract.ViewState.Success(
-                        it.data.toMovieListUiModel()
-                    )
-                }
+            val response = getMovieListUsecase()
+            when (response) {
+                is Response.Failure -> _state.value =
+                    MovieListContract.ViewState.Error(response.message)
+
+                is Response.Success -> _state.value = MovieListContract.ViewState.Success(
+                    response.data.toMovieListUiModel()
+                )
             }
+
         }
     }
 
