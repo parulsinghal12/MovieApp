@@ -10,7 +10,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(SingletonComponent::class) //parul:TODO: ideally it should be ViewModelComponent, but made singleton to make it visible for activity.
+@InstallIn(ViewModelComponent::class)
 abstract class MovieRepositoryModule {
 
     @Binds
