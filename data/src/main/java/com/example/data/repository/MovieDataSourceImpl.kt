@@ -9,6 +9,7 @@ import com.example.domain.model.MovieDetail
 import com.example.domain.model.MovieList
 import com.example.domain.usecase.Response
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class MovieDataSourceImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): MovieDataSource {
 
-    override suspend fun getMovies(): Response<MovieList> {
-        return try {
+    override suspend fun getMovies(): Response<MovieList> = withContext(ioDispatcher){
+        try {
             val response = apiService.getMovies(BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
@@ -35,8 +36,8 @@ class MovieDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMoviesDetails(movieId: Int): Response<MovieDetail> {
-         return try {
+    override suspend fun getMoviesDetails(movieId: Int): Response<MovieDetail> = withContext(ioDispatcher){
+        try {
             val response = apiService.getMovieDetails(movieId, BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
