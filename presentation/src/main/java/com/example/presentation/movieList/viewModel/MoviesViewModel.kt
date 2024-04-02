@@ -29,6 +29,11 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
     override val sideEffect: SharedFlow<MovieListContract.SideEffect>
         get() = _sideEffect.asSharedFlow()
 
+    init {
+        // Send an intent to fetch movies list as soon as ViewModel is created
+        sendEvent(MovieListContract.ViewIntent.GetMoviesList)
+    }
+
     override fun sendEvent(viewIntent: MovieListContract.ViewIntent) {
         when (viewIntent) {
             is MovieListContract.ViewIntent.GetMoviesList -> getMoviesList()
@@ -52,7 +57,6 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
 
     private fun getMoviesList() {
         viewModelScope.launch {
-            _state.value = MovieListContract.ViewState.Loading
 
             val response = getMovieListUsecase()
             when (response) {

@@ -24,7 +24,7 @@ fun MainAppBar(title: String, showSecondaryHeader: Boolean, navController: NavHo
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.DarkGray
                         )
                     }
                 }

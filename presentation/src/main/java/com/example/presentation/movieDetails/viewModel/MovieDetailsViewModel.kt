@@ -1,9 +1,11 @@
 package com.example.presentation.movieDetails.viewModel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetMovieDetailUsecase
 import com.example.domain.usecase.Response
+import com.example.presentation.contract.NoOpSideEffect
 import com.example.presentation.mapper.toMovieDetailUiModel
 import com.example.presentation.movieDetails.contract.MovieDetailContract
 
@@ -14,22 +16,29 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailsViewModel @Inject constructor(val getMovieDetailUsecase: GetMovieDetailUsecase) : ViewModel(),
-    MovieDetailContract {
+class MovieDetailsViewModel @Inject constructor(
+    val getMovieDetailUsecase: GetMovieDetailUsecase,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel(), MovieDetailContract {
 
     private val _state = MutableStateFlow(value = loadingState())
 
     override val viewState: StateFlow<MovieDetailContract.ViewState>
         get() = _state.asStateFlow()
 
-    private val _sideEffect = MutableSharedFlow<MovieDetailContract.SideEffect>()
-    override val sideEffect: SharedFlow<MovieDetailContract.SideEffect>
-        get() = _sideEffect.asSharedFlow()
+    //no side effect in this screen hence initializing with MutableSharedFlow.
+    // Without emitting any items it will serve the purpose of having an "empty" SharedFlow
+    override val sideEffect: SharedFlow<NoOpSideEffect> = MutableSharedFlow()
 
+    init {
+        val movieId = savedStateHandle.get<Int>("movieId") ?: throw IllegalArgumentException("Movie ID not found")
+        sendEvent(MovieDetailContract.ViewIntent.GetMovieDetails(movieId))
+    }
 
     override fun sendEvent(viewIntent: MovieDetailContract.ViewIntent) {
         when (viewIntent) {
@@ -44,7 +53,7 @@ class MovieDetailsViewModel @Inject constructor(val getMovieDetailUsecase: GetMo
 
     private fun getMovieDetail(movieId: Int) {
         viewModelScope.launch {
-            _state.value = MovieDetailContract.ViewState.Loading
+
             val response = getMovieDetailUsecase(movieId)
             when (response) {
                 is Response.Failure ->

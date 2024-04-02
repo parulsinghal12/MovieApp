@@ -30,9 +30,6 @@ fun MoviesScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit, block = {
-        moviesViewModel.sendEvent(
-            MovieListContract.ViewIntent.GetMoviesList
-        )
 
         moviesViewModel.sideEffect.collect { effect ->
             when (effect) {

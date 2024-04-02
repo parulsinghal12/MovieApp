@@ -35,7 +35,7 @@ fun NavGraph (navController: NavHostController = rememberNavController(),
             )) {
             toolBarTitle.value = stringResource(id = R.string.app_name)
             secondaryScreenHeader.value = true
-            MovieDetailsScreen(movieID =  it.arguments?.getInt("movieId") ?: 0)
+            MovieDetailsScreen(/*movieID =  it.arguments?.getInt("movieId") ?: 0*/)
         }
     }
 }

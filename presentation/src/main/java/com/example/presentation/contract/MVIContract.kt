@@ -12,3 +12,6 @@ interface MVIContract<ViewState, ViewIntent, SideEffect> {
     val sideEffect: SharedFlow<SideEffect>
 
 }
+
+// Marker interface for no operation
+object NoOpSideEffect

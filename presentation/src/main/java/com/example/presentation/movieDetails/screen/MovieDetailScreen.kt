@@ -19,14 +19,10 @@ import com.example.presentation.movieDetails.viewModel.MovieDetailsViewModel
 import com.example.presentation.ui.components.CustomTextView
 
 @Composable
-fun MovieDetailsScreen(movieDetailViewModel: MovieDetailsViewModel = hiltViewModel(), movieID: Int) {
+fun MovieDetailsScreen(movieDetailViewModel: MovieDetailsViewModel = hiltViewModel()) {
 
     val resultValue = movieDetailViewModel.viewState.collectAsState()
     val context = LocalContext.current
-
-    LaunchedEffect(key1 = Unit, block = {
-        movieDetailViewModel.sendEvent(MovieDetailContract.ViewIntent.GetMovieDetails(movieID))
-    })
 
     when (resultValue.value) {
 
