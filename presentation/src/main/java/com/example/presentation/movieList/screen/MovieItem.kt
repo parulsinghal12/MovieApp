@@ -16,29 +16,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.presentation.model.MovieUiModel
 import com.example.presentation.ui.components.CustomImageView
 import com.example.presentation.ui.components.CustomTextView
 import com.example.presentation.ui.components.CustomTextViewBold
+import com.example.presentation.ui.theme.Dimens
 
 @Composable
 fun MovieItem(movie: MovieUiModel, selectedMovie: (Int) -> Unit) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp),
+            .padding(Dimens.cardPadding),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 5.dp,
+            defaultElevation = Dimens.cardElevation,
         )
     ) {
-
         Column(
             modifier = Modifier
                 .clickable { selectedMovie(movie.id) }
                 .fillMaxWidth()
-                .padding(1.dp)
+                .padding(Dimens.columnPadding)
         ) {
             CustomImageView(
                 data = movie.posterPath,
@@ -46,10 +44,10 @@ fun MovieItem(movie: MovieUiModel, selectedMovie: (Int) -> Unit) {
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(Dimens.imageHeight)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Dimens.spacerHeight8dp))
 
             CustomTextViewBold(
                 text = movie.title,
@@ -65,7 +63,7 @@ fun MovieItem(movie: MovieUiModel, selectedMovie: (Int) -> Unit) {
                 color = Color.Gray
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Dimens.smallSpacerHeight))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -95,13 +93,12 @@ fun MovieItem(movie: MovieUiModel, selectedMovie: (Int) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMovieItem() {
-    val mockMovie = MovieUiModel(
+    MovieItem(movie = MovieUiModel(
         id = 1,
         title = "Mock Movie Title",
         posterPath = "",
         releaseDate = "2022-01-01",
         rating = 8.5,
-        voteCount = 1234)
-
-    MovieItem(movie = mockMovie, selectedMovie = { _ -> } )
+        voteCount = 1234
+    ), selectedMovie = { })
 }

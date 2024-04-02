@@ -16,18 +16,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.presentation.model.GenreUi
 import com.example.presentation.model.MovieDetailUiModel
 import com.example.presentation.ui.components.CustomImageView
 import com.example.presentation.ui.components.CustomTextView
 import com.example.presentation.ui.components.CustomTextViewBold
 import com.example.presentation.ui.components.CustomTextViewHeading
+import com.example.presentation.ui.theme.Dimens
 
 @Composable
 fun MovieContentView(movieDetail: MovieDetailUiModel) {
@@ -38,7 +37,7 @@ fun MovieContentView(movieDetail: MovieDetailUiModel) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(Dimens.screenPadding)
         ) {
             // Poster Image taking half the screen width in landscape
             CustomImageView(
@@ -53,9 +52,9 @@ fun MovieContentView(movieDetail: MovieDetailUiModel) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 16.dp)
+                    .padding(start = Dimens.rowPaddingStart)
                     .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(Dimens.movieContentViewVerticalScrollSpacerHeight)
             ) {
                 MovieDetailAttributes(movieDetail)
                 Divider()
@@ -74,7 +73,7 @@ fun MovieContentView(movieDetail: MovieDetailUiModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(Dimens.screenPadding)
                 .verticalScroll(scrollState)
         ) {
             // Poster Image
@@ -84,15 +83,15 @@ fun MovieContentView(movieDetail: MovieDetailUiModel) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
+                    .height(Dimens.posterImageHeight)
             )
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(Dimens.spacerHeight4dp))
             MovieDetailAttributes(movieDetail)
             Divider()
             CustomTextViewBold(
                 text = "Overview",
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 4.dp, top = 4.dp)
+                modifier = Modifier.padding(bottom = Dimens.textPaddingBottom, top = Dimens.textPaddingBottom)
             )
             CustomTextView(
                 text = movieDetail.overview,
@@ -105,13 +104,13 @@ fun MovieContentView(movieDetail: MovieDetailUiModel) {
 
 @Composable
 fun MovieDetailAttributes(movieDetail: MovieDetailUiModel) {
-    Divider(modifier = Modifier.padding(bottom = 2.dp))
+    Divider(modifier = Modifier.padding(bottom = Dimens.dividerPaddingBottom))
     CustomTextViewHeading(
         text = movieDetail.title,
         style = MaterialTheme.typography.headlineMedium,
-        modifier = Modifier.padding(bottom = 4.dp)
+        modifier = Modifier.padding(bottom = Dimens.textPaddingBottom)
     )
-    Divider(modifier = Modifier.padding(bottom = 2.dp))
+    Divider(modifier = Modifier.padding(bottom = Dimens.dividerPaddingBottom))
     MovieAttribute("Language", mapLanguageCodeToName1(movieDetail.originalLanguage))
     MovieAttribute("Genres", movieDetail.genres.joinToString { it.name })
     MovieAttribute("Duration", "${movieDetail.runtime} minutes")
@@ -124,7 +123,7 @@ fun MovieAttribute(label: String, value: String) {
         CustomTextViewBold(
             text = "$label: ",
             style = MaterialTheme.typography.bodyLarge.copy(color = DarkGray),
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = Dimens.textPaddingBottom)
         )
         CustomTextView(
             text = value,
@@ -132,7 +131,7 @@ fun MovieAttribute(label: String, value: String) {
             color = DarkGray
         )
     }
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(Dimens.spacerHeight4dp))
 }
 
 @Composable

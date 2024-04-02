@@ -12,10 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
-import com.example.presentation.model.MovieUiModel
 import com.example.presentation.movieList.contract.MovieListContract
 import com.example.presentation.movieList.viewModel.MoviesViewModel
 import com.example.presentation.ui.components.CustomTextView
@@ -34,7 +32,7 @@ fun MoviesScreen(
         moviesViewModel.sideEffect.collect { effect ->
             when (effect) {
                 is MovieListContract.SideEffect.NavigateToDetailsScreen -> {
-                    //update selectedMovie lambda fu
+                    //update selectedMovie lambda fun
                     selectedMovie(effect.movieId)
                     //navController.navigate(.createMovieDetailRoute(effect.movieId))
                 }
