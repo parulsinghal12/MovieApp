@@ -7,6 +7,7 @@ import com.example.domain.usecase.Response
 import com.example.presentation.mapper.toMovieListUiModel
 import com.example.presentation.movieList.contract.MovieListContract
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -56,18 +57,15 @@ class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListU
     }
 
     private fun getMoviesList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             val response = getMovieListUsecase()
             when (response) {
-                is Response.Failure -> _state.value =
-                    MovieListContract.ViewState.Error(response.message)
+                is Response.Failure -> _state.emit(MovieListContract.ViewState.Error(response.message))
 
-                is Response.Success -> _state.value = MovieListContract.ViewState.Success(
-                    response.data.toMovieListUiModel()
-                )
+                is Response.Success -> _state.emit(MovieListContract.ViewState.Success(
+                    response.data.toMovieListUiModel()))
             }
-
         }
     }
 

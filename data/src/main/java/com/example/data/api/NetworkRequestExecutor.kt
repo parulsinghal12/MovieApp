@@ -1,8 +1,6 @@
 package com.example.data.api
 
 import com.example.domain.usecase.Response
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -16,7 +14,7 @@ suspend fun <T> executeNetworkRequest(
         // Handle Retrofit's HttpExceptions
         Response.Failure("Network error: ${e.localizedMessage.orEmpty()}")
     } catch (e: IOException) {
-        // Handle IO exceptions, like no internet connection
+        // Handle IO exceptions
         Response.Failure("IO error: ${e.localizedMessage.orEmpty()}")
     } catch (e: Exception) {
         // Handle any other exceptions
