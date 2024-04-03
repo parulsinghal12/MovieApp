@@ -49,11 +49,10 @@ class MovieDataSourceImplTest {
         coEvery { apiService.getMovies(BuildConfig.API_KEY) } returns Response.success(mockMovieData)
 
         // Execute the method under test
-        val result = movieDataSource.getMovies().toList()
+        val result = movieDataSource.getMovies()
 
         // Assert that the result contains the expected success value
-        assert(result.size == 1) // Ensure there's exactly one emission
-        when (val successResult = result.first()) {
+        when (val successResult = result) {
             is com.example.domain.usecase.Response.Success -> assertEquals(expectedMovieList, successResult.data) // Validate success content
             else -> fail("Expected Success, got $successResult")
         }
@@ -65,11 +64,10 @@ class MovieDataSourceImplTest {
         coEvery { apiService.getMovies(BuildConfig.API_KEY) } throws HttpException(Response.error<Nothing>(404, mockk(relaxed = true)))
 
         // Execute the method under test
-        val result = movieDataSource.getMovies().toList()
+        val result = movieDataSource.getMovies()
 
         //Assert
-        assert(result.size == 1) // Ensure there's exactly one emission
-        when (val errorResult = result.first()) {
+        when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("HTTP")) // Validate failure content
             else -> fail("Expected Failure, got $errorResult")
         }
@@ -81,10 +79,9 @@ class MovieDataSourceImplTest {
         coEvery { apiService.getMovies(BuildConfig.API_KEY) } throws IOException("Exception")
 
         // Execute the method under test
-        val result = movieDataSource.getMovies().toList()
+        val result = movieDataSource.getMovies()
 
-        assert(result.size == 1) // Ensure there's exactly one emission
-        when (val errorResult = result.first()) {
+        when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("IO"))
             else -> fail("Expected Failure, got $errorResult")
         }
@@ -101,11 +98,10 @@ class MovieDataSourceImplTest {
         coEvery { apiService.getMovieDetails(movieId, BuildConfig.API_KEY) } returns Response.success(mockMovieDetail)
 
         // Execute the method under test
-        val result = movieDataSource.getMoviesDetails(movieId).toList()
+        val result = movieDataSource.getMoviesDetails(movieId)
 
         // Assert
-        assert(result.size == 1) // Ensure there's exactly one emission
-        when (val successResult = result.first()) {
+        when (val successResult = result) {
             is com.example.domain.usecase.Response.Success -> assertEquals(expectedMovieDetail, successResult.data) // Validate success content
             else -> fail("Expected Success, got $successResult")
         }
@@ -119,11 +115,10 @@ class MovieDataSourceImplTest {
         coEvery { apiService.getMovieDetails(movieId, BuildConfig.API_KEY) } throws HttpException(Response.error<Nothing>(404, mockk(relaxed = true)))
 
         // Execute the method under test
-        val result = movieDataSource.getMoviesDetails(movieId).toList()
+        val result = movieDataSource.getMoviesDetails(movieId)
 
         // Assert
-        assert(result.size == 1) // Ensure there's exactly one emission
-        when (val errorResult = result.first()) {
+        when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("HTTP")) // Validate failure message
             else -> fail("Expected Failure, got $errorResult")
         }
@@ -137,11 +132,10 @@ class MovieDataSourceImplTest {
         coEvery { apiService.getMovieDetails(movieId, BuildConfig.API_KEY) } throws IOException("IO error")
 
         // Execute the method under test
-        val result = movieDataSource.getMoviesDetails(movieId).toList()
+        val result = movieDataSource.getMoviesDetails(movieId)
 
         // Assert
-        assert(result.size == 1) // Ensure there's exactly one emission
-        when (val errorResult = result.first()) {
+        when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("IO error"))
             else -> fail("Expected Failure, got $errorResult")
         }

@@ -2,6 +2,7 @@ package com.example.data.repository
 
 import com.example.data.BuildConfig
 import com.example.data.api.ApiService
+import com.example.data.api.executeNetworkRequest
 import com.example.data.di.IoDispatcher
 import com.example.data.mapper.toDomainMovieDetail
 import com.example.data.mapper.toDomainMovieList
@@ -20,24 +21,20 @@ class MovieDataSourceImpl @Inject constructor(
 ): MovieDataSource {
 
     override suspend fun getMovies(): Response<MovieList> = withContext(ioDispatcher){
-        try {
+        executeNetworkRequest {
             val response = apiService.getMovies(BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
-                     Response.Success(it.toDomainMovieList())
+                    Response.Success(it.toDomainMovieList())
                 } ?: Response.Failure(("Received null response body"))
             } else {
-                Response.Failure(("API call failed with error: ${response.message()}"))
+                Response.Failure("API call failed with error: ${response.message()}")
             }
-        } catch (e: HttpException) {
-            Response.Failure(("Network error: ${e.localizedMessage.orEmpty()}"))
-        } catch (e: IOException) {
-            Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}"))
         }
     }
 
     override suspend fun getMoviesDetails(movieId: Int): Response<MovieDetail> = withContext(ioDispatcher){
-        try {
+        executeNetworkRequest {
             val response = apiService.getMovieDetails(movieId, BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let {
@@ -46,10 +43,6 @@ class MovieDataSourceImpl @Inject constructor(
             } else {
                 Response.Failure(("API call failed with error: ${response.message()}"))
             }
-        } catch (e: HttpException) {
-             Response.Failure(("Network error: ${e.localizedMessage.orEmpty()}"))
-        } catch (e: IOException) {
-             Response.Failure(("IO error: ${e.localizedMessage.orEmpty()}"))
         }
     }
 }

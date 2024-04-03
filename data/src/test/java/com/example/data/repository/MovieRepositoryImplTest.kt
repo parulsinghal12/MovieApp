@@ -42,16 +42,15 @@ class MovieRepositoryImplTest {
         val mockMovieListDto = json.decodeFromString<MovieListDto>(mockMovieListJsonString)
         val expectedMovieList = mockMovieListDto.toDomainMovieList() // Convert to domain model
 
-        coEvery { movieDataSource.getMovies() } returns flowOf(Response.Success(expectedMovieList))
+        coEvery { movieDataSource.getMovies() } returns Response.Success(expectedMovieList)
 
         // Execute the method under test
-        val resultList = movieRepository.getMovies().toList()
+        val resultList = movieRepository.getMovies()
 
         // Assert the result
-        assertEquals(1, resultList.size)
-        when (val result = resultList.first()) {
-            is Response.Success -> assertEquals(expectedMovieList, result.data)
-            else -> fail("Expected Success, got $result")
+        when (resultList) {
+            is Response.Success -> assertEquals(expectedMovieList, resultList.data)
+            else -> fail("Expected Success, got $resultList")
         }
     }
 
@@ -62,16 +61,15 @@ class MovieRepositoryImplTest {
         val expectedMovieDetail = mockMovieDetailDto.toDomainMovieDetail() // Convert to domain model
 
         val movieId = 123
-        coEvery { movieDataSource.getMoviesDetails(movieId) } returns flowOf(Response.Success(expectedMovieDetail))
+        coEvery { movieDataSource.getMoviesDetails(movieId) } returns (Response.Success(expectedMovieDetail))
 
         // Execute the method under test
-        val resultDetails = movieRepository.getMovieDetails(movieId).toList()
+        val resultDetails = movieRepository.getMovieDetails(movieId)
 
         // Assert the result
-        assertEquals(1, resultDetails.size)
-        when (val result = resultDetails.first()) {
-            is Response.Success -> assertEquals(expectedMovieDetail, result.data)
-            else -> fail("Expected Success, got $result")
+        when (resultDetails) {
+            is Response.Success -> assertEquals(expectedMovieDetail, resultDetails.data)
+            else -> fail("Expected Success, got $resultDetails")
         }
     }
     @After

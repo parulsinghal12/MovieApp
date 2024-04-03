@@ -55,7 +55,7 @@ class MoviesViewModelTest {
         //expected result
         val expectedState = MovieListContract.ViewState.Success(mockMovieList.toMovieListUiModel())
 
-        coEvery { getMovieListUsecase() } returns flowOf(successResponse)
+        coEvery { getMovieListUsecase() } returns (successResponse)
 
         moviesViewModel.sendEvent(MovieListContract.ViewIntent.GetMoviesList)
 
@@ -68,7 +68,7 @@ class MoviesViewModelTest {
         val errorMessage = "An error occurred"
         val errorResponse = Response.Failure(errorMessage)
 
-        coEvery { getMovieListUsecase() } returns flowOf(errorResponse)
+        coEvery { getMovieListUsecase() } returns (errorResponse)
 
         moviesViewModel.sendEvent(MovieListContract.ViewIntent.GetMoviesList)
 

@@ -35,14 +35,14 @@ class GetMovieListUseCaseTest {
         val successResponse = Response.Success(mockMovieList)
 
         // Mock the repository's behavior
-        coEvery { movieRepository.getMovies() } returns flowOf(successResponse)
+        coEvery { movieRepository.getMovies() } returns (successResponse)
 
         //collect results emitted by flow to list
-        val results = getMovieListUseCase().toList()
-        assertEquals(1, results.size) // Ensure there's exactly one emission
+        val results = getMovieListUseCase()
+        //assertEquals(1, results.size) // Ensure there's exactly one emission
 
         //fetch the first emission (though only one would be there)
-        val response = results.first()
+        val response = results
         when (response) {
             is Response.Failure -> fail("Expected Success, got Failure")
             is Response.Success -> assertEquals(successResponse.data, response.data)
@@ -57,10 +57,10 @@ class GetMovieListUseCaseTest {
         val errorResponse = Response.Failure(errorMessage)
 
         // Mock the repository's behavior to return an error
-        coEvery { movieRepository.getMovies() } returns flowOf(errorResponse)
+        coEvery { movieRepository.getMovies() } returns (errorResponse)
 
         // Invoke the use case and collect the response
-        val response = getMovieListUseCase().first()
+        val response = getMovieListUseCase()
 
         // Verify the response is the error response
         assertEquals(errorResponse, response)
