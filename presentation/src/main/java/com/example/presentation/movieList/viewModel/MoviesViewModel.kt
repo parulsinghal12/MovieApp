@@ -18,8 +18,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModel @Inject constructor(val getMovieListUsecase: GetMovieListUsecase) : ViewModel(), MovieListContract {
-
+class MoviesViewModel @Inject constructor(
+    val getMovieListUsecase: GetMovieListUsecase
+) : ViewModel(), MovieListContract {
 
     private val _state = MutableStateFlow(value = loadingState())
 

@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Named
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
@@ -60,11 +59,8 @@ class MovieDetailsViewModel @Inject constructor(
                     _state.value = MovieDetailContract.ViewState.Error(response.message)
 
                 is Response.Success -> {
-                    val temp = response.data.toMovieDetailUiModel()
-                    println("temp = ${temp.toString()}")
-                    println("temp2 = ${MovieDetailContract.ViewState.Success(temp)}")
                     _state.value =
-                        MovieDetailContract.ViewState.Success(temp)
+                        MovieDetailContract.ViewState.Success(response.data.toMovieDetailUiModel())
                 }
             }
 
