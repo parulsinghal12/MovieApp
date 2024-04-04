@@ -11,7 +11,6 @@ class MovieDetailsDtoToMovieDetailTest {
 
      @Test
      fun `MovieDetailDto toDomainMovieDetail maps correctly`() {
-          println("MovieDetailDto toDomainMovieDetail maps correctly")
           val mockedMovieDetailsJson = getJson("mocked_movie_details.json")
           val movieDetailDto = json.decodeFromString<MovieDetailDto>(mockedMovieDetailsJson)
 

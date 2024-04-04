@@ -34,7 +34,6 @@ class GetMovieListUseCaseTest {
 
         //collect results emitted by flow to list
         val results = getMovieListUseCase()
-        //assertEquals(1, results.size) // Ensure there's exactly one emission
 
         //fetch the first emission (though only one would be there)
         val response = results

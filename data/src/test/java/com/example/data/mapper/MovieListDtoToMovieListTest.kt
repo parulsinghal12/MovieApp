@@ -11,8 +11,6 @@ class MovieListDtoToMovieListTest {
 
     @Test
     fun `MovieListDto toDomainMovieList maps correctly`() {
-        println("MovieListDto toDomainMovieList maps correctly")
-
         // Use the mocked_movies.json for a list of movies
         val mockedMoviesJson = getJson("mocked_movies.json")
         val moviesListDto = json.decodeFromString<MovieListDto>(mockedMoviesJson)
