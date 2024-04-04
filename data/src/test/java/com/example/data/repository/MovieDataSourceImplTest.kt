@@ -12,7 +12,6 @@ import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import junit.framework.TestCase.fail
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -36,12 +35,12 @@ class MovieDataSourceImplTest {
 
     @Before
     fun setUp() {
-        movieDataSource = MovieDataSourceImpl(apiService, testDispatcher)
+        movieDataSource = MovieDataSourceImpl(apiService)
     }
 
     @Test
     fun `getMovies returns success`() = testScope.runTest {
-        val mockMovieDataString = getJson("mocked_movies.json")
+        val mockMovieDataString = getJson(MOVIES_JSON_FILE)
         val mockMovieData = json.decodeFromString<MovieListDto>(mockMovieDataString)
         val expectedMovieList = mockMovieData.toDomainMovieList() // Use the extension function to convert to domain model
 
@@ -54,7 +53,7 @@ class MovieDataSourceImplTest {
         // Assert that the result contains the expected success value
         when (val successResult = result) {
             is com.example.domain.usecase.Response.Success -> assertEquals(expectedMovieList, successResult.data) // Validate success content
-            else -> fail("Expected Success, got $successResult")
+            else -> fail(FAILURE + successResult)
         }
     }
 
@@ -69,7 +68,7 @@ class MovieDataSourceImplTest {
         //Assert
         when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("HTTP")) // Validate failure content
-            else -> fail("Expected Failure, got $errorResult")
+            else -> fail(FAILURE + errorResult)
         }
     }
 
@@ -83,61 +82,56 @@ class MovieDataSourceImplTest {
 
         when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("IO"))
-            else -> fail("Expected Failure, got $errorResult")
+            else -> fail(FAILURE + errorResult)
         }
     }
 
     @Test
     fun `getMovieDetails returns success`() = testScope.runTest {
-        val movieId = 1011985 // Example movie ID
-        val mockMovieDetailString = getJson("mocked_movie_details.json")
+        val mockMovieDetailString = getJson(MOVIE_DETAILS_JSON_FILE)
         val mockMovieDetail = json.decodeFromString<MovieDetailDto>(mockMovieDetailString)
         val expectedMovieDetail = mockMovieDetail.toDomainMovieDetail()
 
         // Mock API response
-        coEvery { apiService.getMovieDetails(movieId, BuildConfig.API_KEY) } returns Response.success(mockMovieDetail)
+        coEvery { apiService.getMovieDetails(MOVIE_ID, BuildConfig.API_KEY) } returns Response.success(mockMovieDetail)
 
         // Execute the method under test
-        val result = movieDataSource.getMoviesDetails(movieId)
+        val result = movieDataSource.getMoviesDetails(MOVIE_ID)
 
         // Assert
         when (val successResult = result) {
             is com.example.domain.usecase.Response.Success -> assertEquals(expectedMovieDetail, successResult.data) // Validate success content
-            else -> fail("Expected Success, got $successResult")
+            else -> fail(FAILURE + successResult)
         }
     }
 
     @Test
     fun `getMovieDetails handles HttpException`() = testScope.runTest {
-        val movieId = 1011985 // Example movie ID
-
         // Mock an HttpException
-        coEvery { apiService.getMovieDetails(movieId, BuildConfig.API_KEY) } throws HttpException(Response.error<Nothing>(404, mockk(relaxed = true)))
+        coEvery { apiService.getMovieDetails(MOVIE_ID, BuildConfig.API_KEY) } throws HttpException(Response.error<Nothing>(404, mockk(relaxed = true)))
 
         // Execute the method under test
-        val result = movieDataSource.getMoviesDetails(movieId)
+        val result = movieDataSource.getMoviesDetails(MOVIE_ID)
 
         // Assert
         when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("HTTP")) // Validate failure message
-            else -> fail("Expected Failure, got $errorResult")
+            else -> fail(FAILURE + errorResult)
         }
     }
 
     @Test
     fun `getMovieDetails handles IOException`() = testScope.runTest {
-        val movieId = 1011985 // Example movie ID
-
         // Mock an IOException
-        coEvery { apiService.getMovieDetails(movieId, BuildConfig.API_KEY) } throws IOException("IO error")
+        coEvery { apiService.getMovieDetails(MOVIE_ID, BuildConfig.API_KEY) } throws IOException("IO error")
 
         // Execute the method under test
-        val result = movieDataSource.getMoviesDetails(movieId)
+        val result = movieDataSource.getMoviesDetails(MOVIE_ID)
 
         // Assert
         when (val errorResult = result) {
             is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("IO error"))
-            else -> fail("Expected Failure, got $errorResult")
+            else -> fail(FAILURE + errorResult)
         }
     }
 
@@ -149,5 +143,12 @@ class MovieDataSourceImplTest {
     private fun getJson(path: String): String {
         val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(path)
         return resourceAsStream?.bufferedReader().use { it?.readText() } ?: ""
+    }
+
+    companion object {
+        private const val MOVIE_ID = 1011985
+        private const val MOVIES_JSON_FILE = "mocked_movies.json"
+        private const val MOVIE_DETAILS_JSON_FILE = "mocked_movie_details.json"
+        private const val FAILURE = "FAILURE"
     }
 }

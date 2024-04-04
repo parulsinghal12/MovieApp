@@ -7,15 +7,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetMovieDetailUseCaseTest {
 
     private lateinit var movieRepository: MovieRepository
@@ -34,17 +29,16 @@ class GetMovieDetailUseCaseTest {
         val successResponse = Response.Success(mockMovieDetail)
 
         // Mock the repository's behavior
-        val movieId = 123
-        coEvery { movieRepository.getMovieDetails(movieId) } returns (successResponse)
+        coEvery { movieRepository.getMovieDetails(MOVIE_ID) } returns (successResponse)
 
         //collect results emitted by flow to list
-        val results = getMovieDetailUsecase(movieId)
+        val results = getMovieDetailUsecase(MOVIE_ID)
         //assertEquals(1, results.size) // Ensure there's exactly one emission
 
         //fetch the first emission (though only one would be there)
         val response = results
         when (response) {
-            is Response.Failure -> fail("Expected Success, got Failure")
+            is Response.Failure -> fail(ERROR_MSG)
             is Response.Success -> assertEquals(successResponse.data, response.data)
             // Validate success content
         }
@@ -53,17 +47,20 @@ class GetMovieDetailUseCaseTest {
     @Test
     fun `invoke returns error response`() = runTest {
         // Prepare a mock error response
-        val errorMessage = "An error occurred"
-        val errorResponse = Response.Failure(errorMessage)
+        val errorResponse = Response.Failure(ERROR_MSG)
 
         // Mock the repository's behavior to return an error
-        val movieId = 123
-        coEvery { movieRepository.getMovieDetails(movieId) } returns (errorResponse)
+        coEvery { movieRepository.getMovieDetails(MOVIE_ID) } returns (errorResponse)
 
         // Invoke the use case and collect the response
-        val response = getMovieDetailUsecase(movieId)
+        val response = getMovieDetailUsecase(MOVIE_ID)
 
         // Verify the response is the error response
         assertEquals(errorResponse, response)
+    }
+
+    companion object {
+        private const val MOVIE_ID = 123
+        private const val ERROR_MSG = "An error occurred"
     }
 }

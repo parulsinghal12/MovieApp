@@ -10,16 +10,12 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class MovieRepositoryImplTest {
 
     private lateinit var movieDataSource: MovieDataSource
@@ -32,8 +28,8 @@ class MovieRepositoryImplTest {
     fun setUp() {
         movieDataSource = mockk()
         movieRepository = MovieRepositoryImpl(movieDataSource)
-        mockMovieListJsonString = getJson("mocked_movies.json")
-        mockMovieDetailJsonString = getJson("mocked_movie_details.json")
+        mockMovieListJsonString = getJson(MOVIES_JSON_FILE)
+        mockMovieDetailJsonString = getJson(MOVIE_DETAILS_JSON_FILE)
     }
 
     @Test
@@ -50,7 +46,7 @@ class MovieRepositoryImplTest {
         // Assert the result
         when (resultList) {
             is Response.Success -> assertEquals(expectedMovieList, resultList.data)
-            else -> fail("Expected Success, got $resultList")
+            else -> fail(FAILURE + resultList)
         }
     }
 
@@ -60,16 +56,15 @@ class MovieRepositoryImplTest {
         val mockMovieDetailDto = json.decodeFromString<MovieDetailDto>(mockMovieDetailJsonString)
         val expectedMovieDetail = mockMovieDetailDto.toDomainMovieDetail() // Convert to domain model
 
-        val movieId = 123
-        coEvery { movieDataSource.getMoviesDetails(movieId) } returns (Response.Success(expectedMovieDetail))
+        coEvery { movieDataSource.getMoviesDetails(MOVIE_ID) } returns (Response.Success(expectedMovieDetail))
 
         // Execute the method under test
-        val resultDetails = movieRepository.getMovieDetails(movieId)
+        val resultDetails = movieRepository.getMovieDetails(MOVIE_ID)
 
         // Assert the result
         when (resultDetails) {
             is Response.Success -> assertEquals(expectedMovieDetail, resultDetails.data)
-            else -> fail("Expected Success, got $resultDetails")
+            else -> fail(FAILURE + resultDetails)
         }
     }
     @After
@@ -80,5 +75,12 @@ class MovieRepositoryImplTest {
     private fun getJson(path: String): String {
         val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(path)
         return resourceAsStream?.bufferedReader().use { it?.readText() } ?: ""
+    }
+
+    companion object {
+        private const val MOVIE_ID = 123
+        private const val MOVIES_JSON_FILE = "mocked_movies.json"
+        private const val MOVIE_DETAILS_JSON_FILE = "mocked_movie_details.json"
+        private const val FAILURE = "FAILURE"
     }
 }

@@ -8,15 +8,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.fail
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetMovieListUseCaseTest {
 
     private lateinit var movieRepository: MovieRepository
@@ -44,7 +39,7 @@ class GetMovieListUseCaseTest {
         //fetch the first emission (though only one would be there)
         val response = results
         when (response) {
-            is Response.Failure -> fail("Expected Success, got Failure")
+            is Response.Failure -> fail(ERROR_MSG)
             is Response.Success -> assertEquals(successResponse.data, response.data)
             // Validate success content
         }
@@ -53,8 +48,7 @@ class GetMovieListUseCaseTest {
     @Test
     fun `invoke returns error response`() = runTest {
         // Prepare a mock error response
-        val errorMessage = "An error occurred"
-        val errorResponse = Response.Failure(errorMessage)
+        val errorResponse = Response.Failure(ERROR_MSG)
 
         // Mock the repository's behavior to return an error
         coEvery { movieRepository.getMovies() } returns (errorResponse)
@@ -64,5 +58,9 @@ class GetMovieListUseCaseTest {
 
         // Verify the response is the error response
         assertEquals(errorResponse, response)
+    }
+
+    companion object {
+        private const val ERROR_MSG = "An error occurred"
     }
 }

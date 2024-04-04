@@ -10,6 +10,7 @@ import com.example.presentation.mapper.toMovieDetailUiModel
 import com.example.presentation.movieDetails.contract.MovieDetailContract
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
@@ -50,15 +52,20 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getMovieDetail(movieId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             val response = getMovieDetailUsecase(movieId)
             when (response) {
                 is Response.Failure ->
                     _state.value = MovieDetailContract.ViewState.Error(response.message)
 
-                is Response.Success ->
-                    _state.value = MovieDetailContract.ViewState.Success(response.data.toMovieDetailUiModel())
+                is Response.Success -> {
+                    val temp = response.data.toMovieDetailUiModel()
+                    println("temp = ${temp.toString()}")
+                    println("temp2 = ${MovieDetailContract.ViewState.Success(temp)}")
+                    _state.value =
+                        MovieDetailContract.ViewState.Success(temp)
+                }
             }
 
         }
