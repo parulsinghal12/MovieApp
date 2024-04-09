@@ -44,13 +44,6 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
     // Retrofit
     implementation(libs.squareup.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)

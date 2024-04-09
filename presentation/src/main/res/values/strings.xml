@@ -4,4 +4,5 @@
     <string name="loading">Loading…</string>
     <string name="voting_avg">Voting average</string>
     <string name="voting_count">Vote count</string>
+    <string name="back">Back</string>
 </resources>
