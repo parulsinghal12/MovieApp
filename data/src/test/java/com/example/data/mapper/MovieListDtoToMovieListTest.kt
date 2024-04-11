@@ -12,7 +12,7 @@ class MovieListDtoToMovieListTest {
     @Test
     fun `MovieListDto toDomainMovieList maps correctly`() {
         // Use the mocked_movies.json for a list of movies
-        val mockedMoviesJson = getJson("mocked_movies.json")
+        val mockedMoviesJson = getJson(MOVIE_JSON_FILE)
         val moviesListDto = json.decodeFromString<MovieListDto>(mockedMoviesJson)
 
         val domainMovieList = moviesListDto.toDomainMovieList()
@@ -23,5 +23,9 @@ class MovieListDtoToMovieListTest {
     private fun getJson(path: String): String {
         val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(path)
         return resourceAsStream?.bufferedReader().use { it?.readText() } ?: ""
+    }
+
+    companion object {
+        private const val MOVIE_JSON_FILE = "mocked_movies.json"
     }
 }

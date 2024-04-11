@@ -34,7 +34,6 @@ fun MoviesScreen(
                 is MovieListContract.SideEffect.NavigateToDetailsScreen -> {
                     //update selectedMovie lambda fun
                     selectedMovie(effect.movieId)
-                    //navController.navigate(.createMovieDetailRoute(effect.movieId))
                 }
             }
         }

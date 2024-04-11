@@ -115,7 +115,7 @@ class MovieDataSourceImplTest {
 
         // Assert
         when (val errorResult = result) {
-            is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("HTTP")) // Validate failure message
+            is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains(HTTP_EXCEPTION)) // Validate failure message
             else -> fail(FAILURE + errorResult)
         }
     }
@@ -123,14 +123,14 @@ class MovieDataSourceImplTest {
     @Test
     fun `getMovieDetails handles IOException`() = testScope.runTest {
         // Mock an IOException
-        coEvery { apiService.getMovieDetails(MOVIE_ID, BuildConfig.API_KEY) } throws IOException("IO error")
+        coEvery { apiService.getMovieDetails(MOVIE_ID, BuildConfig.API_KEY) } throws IOException(IO_EXCEPTION)
 
         // Execute the method under test
         val result = movieDataSource.getMoviesDetails(MOVIE_ID)
 
         // Assert
         when (val errorResult = result) {
-            is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("IO error"))
+            is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains(IO_EXCEPTION))
             else -> fail(FAILURE + errorResult)
         }
     }
@@ -150,5 +150,7 @@ class MovieDataSourceImplTest {
         private const val MOVIES_JSON_FILE = "mocked_movies.json"
         private const val MOVIE_DETAILS_JSON_FILE = "mocked_movie_details.json"
         private const val FAILURE = "FAILURE"
+        private const val IO_EXCEPTION = "IO error"
+        private const val HTTP_EXCEPTION = "HTTP error"
     }
 }

@@ -44,6 +44,8 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
+    testImplementation(libs.junit)
+
     // Retrofit
     implementation(libs.squareup.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)

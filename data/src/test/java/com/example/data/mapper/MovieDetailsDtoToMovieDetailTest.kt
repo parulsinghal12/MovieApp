@@ -11,7 +11,7 @@ class MovieDetailsDtoToMovieDetailTest {
 
      @Test
      fun `MovieDetailDto toDomainMovieDetail maps correctly`() {
-          val mockedMovieDetailsJson = getJson("mocked_movie_details.json")
+          val mockedMovieDetailsJson = getJson(MOVIE_DETAILS_JSON_FILE)
           val movieDetailDto = json.decodeFromString<MovieDetailDto>(mockedMovieDetailsJson)
 
           val movieDetail = movieDetailDto.toDomainMovieDetail()
@@ -23,7 +23,7 @@ class MovieDetailsDtoToMovieDetailTest {
           assertEquals(movieDetailDto.homepage, movieDetail.homepage)
           assertEquals(movieDetailDto.id, movieDetail.id)
           assertEquals(movieDetailDto.originalLanguage, movieDetail.originalLanguage)
-          assertEquals("https://image.tmdb.org/t/p/w500/${movieDetailDto.posterPath}", movieDetail.posterPath)
+          assertEquals("$POSTER_PATH_PREFIX${movieDetailDto.posterPath}", movieDetail.posterPath)
           assertEquals(movieDetailDto.productionCompanies.map { it.name }, movieDetail.productionCompanies)
           assertEquals(movieDetailDto.revenue, movieDetail.revenue)
           assertEquals(movieDetailDto.runtime, movieDetail.runtime)
@@ -36,6 +36,14 @@ class MovieDetailsDtoToMovieDetailTest {
 
      private fun getJson(path: String): String {
           val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(path)
-          return resourceAsStream?.bufferedReader().use { it?.readText() } ?: throw IllegalStateException("Could not load resource: $path")
+          return resourceAsStream?.bufferedReader().use { it?.readText() } ?: throw IllegalStateException(
+               String.format(ILLEGAL_EXCEPTION,path)
+          )
+     }
+
+     companion object {
+          private const val MOVIE_DETAILS_JSON_FILE = "mocked_movie_details.json"
+          private const val POSTER_PATH_PREFIX = "https://image.tmdb.org/t/p/w500/"
+          private const val ILLEGAL_EXCEPTION = "Could not load resource: %s"
      }
 }

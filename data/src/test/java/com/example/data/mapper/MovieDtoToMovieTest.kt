@@ -12,7 +12,7 @@ class MovieDtoToMovieTest {
     @Test
     fun `MovieDto toDomainMovie maps correctly`() {
         // Use the mocked_movies.json for a list of movies
-        val mockedMoviesJson = getJson("mocked_movies.json")
+        val mockedMoviesJson = getJson(MOVIE_JSON_FILE)
 
         val moviesDto = json.decodeFromString<MovieListDto>(mockedMoviesJson)
 
@@ -24,7 +24,7 @@ class MovieDtoToMovieTest {
         assertEquals(moviesDto.movieList.first().originalLanguage, domainMovie.originalLanguage)
         assertEquals(moviesDto.movieList.first().overview, domainMovie.overview)
         assertEquals(moviesDto.movieList.first().popularity, domainMovie.popularity)
-        assertEquals("https://image.tmdb.org/t/p/w500//kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg", domainMovie.posterPath)
+        assertEquals("${POSTER_PATH_PREFIX}${moviesDto.movieList.first().posterPath}", domainMovie.posterPath)
         assertEquals(moviesDto.movieList.first().releaseDate, domainMovie.releaseDate)
         assertEquals(moviesDto.movieList.first().title, domainMovie.title)
         assertEquals(moviesDto.movieList.first().rating, domainMovie.rating)
@@ -34,5 +34,10 @@ class MovieDtoToMovieTest {
     private fun getJson(path: String): String {
         val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(path)
         return resourceAsStream?.bufferedReader().use { it?.readText() } ?: ""
+    }
+
+    companion object {
+        private const val MOVIE_JSON_FILE = "mocked_movies.json"
+        private const val POSTER_PATH_PREFIX = "https://image.tmdb.org/t/p/w500/"
     }
 }

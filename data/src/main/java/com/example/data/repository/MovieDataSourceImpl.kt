@@ -19,9 +19,9 @@ class MovieDataSourceImpl @Inject constructor(
             val response = apiService.getMovies(BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let { Response.Success(it.toDomainMovieList())
-                } ?: Response.Failure(("Received null response body"))
+                } ?: Response.Failure(response.message())
             } else {
-                Response.Failure("API call failed with error: ${response.message()}")
+                Response.Failure(response.message())
             }
         }
     }
@@ -31,9 +31,9 @@ class MovieDataSourceImpl @Inject constructor(
             val response = apiService.getMovieDetails(movieId, BuildConfig.API_KEY)
             if (response.isSuccessful) {
                 response.body()?.let { Response.Success(it.toDomainMovieDetail())
-                } ?: Response.Failure(("Received null response body"))
+                } ?: Response.Failure(response.message())
             } else {
-                Response.Failure(("API call failed with error: ${response.message()}"))
+                Response.Failure(response.message())
             }
         }
     }
