@@ -11,7 +11,7 @@ class MovieDetailsDtoToMovieDetailTest {
 
      @Test
      fun `MovieDetailDto toDomainMovieDetail maps correctly`() {
-          val mockedMovieDetailsJson = getJson(MOVIE_DETAILS_JSON_FILE)
+          val mockedMovieDetailsJson = getJson()
           val movieDetailDto = json.decodeFromString<MovieDetailDto>(mockedMovieDetailsJson)
 
           val movieDetail = movieDetailDto.toDomainMovieDetail()
@@ -34,10 +34,10 @@ class MovieDetailsDtoToMovieDetailTest {
           assertEquals(movieDetailDto.voteCount, movieDetail.voteCount)
      }
 
-     private fun getJson(path: String): String {
-          val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(path)
+     private fun getJson(): String {
+          val resourceAsStream = this::class.java.classLoader?.getResourceAsStream(MOVIE_DETAILS_JSON_FILE)
           return resourceAsStream?.bufferedReader().use { it?.readText() } ?: throw IllegalStateException(
-               String.format(ILLEGAL_EXCEPTION,path)
+               String.format(ILLEGAL_EXCEPTION,MOVIE_DETAILS_JSON_FILE)
           )
      }
 
