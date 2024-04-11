@@ -14,7 +14,6 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -29,18 +28,16 @@ class MoviesViewModelTest {
     @get:Rule
     val dispatcherRule = DispatcherRule()
 
-    private val testDispatcher = UnconfinedTestDispatcher()
-
     private val getMovieListUsecase: GetMovieListUsecase = mockk(relaxed = true)
     private lateinit var moviesViewModel: MoviesViewModel
 
     @Before
     fun setup() {
-        moviesViewModel = MoviesViewModel(getMovieListUsecase)
+        moviesViewModel = MoviesViewModel(getMovieListUsecase, dispatcherRule.testDispatcher)
     }
 
     @Test
-    fun `getMoviesList emits Success state when useCase returns success`() = runTest(testDispatcher) {
+    fun `getMoviesList emits Success state when useCase returns success`() = runTest {
         // Mock data
         val mockMovieList = MockData.mockMovieList
         val successResponse = Response.Success(mockMovieList)

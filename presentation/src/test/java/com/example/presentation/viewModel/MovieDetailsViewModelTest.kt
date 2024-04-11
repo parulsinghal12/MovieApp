@@ -40,7 +40,7 @@ class MovieDetailsViewModelTest {
     @Before
     fun setUp() {
         savedStateHandle = SavedStateHandle(mapOf(NavigationArgs.MOVIE_ID to SAMPLE_MOVIE_ID))
-        viewModel = MovieDetailsViewModel(getMovieDetailUsecase, savedStateHandle)
+        viewModel = MovieDetailsViewModel(getMovieDetailUsecase, savedStateHandle, dispatcherRule.testDispatcher)
     }
 
     @Test
