@@ -12,3 +12,7 @@ sealed class NavDestinations(val destination: String) {
         fun createMovieDetailRoute(movieId: Int) = "NAV_TO_MOVIE_DETAIL_SCREEN/$movieId"
     }
 }
+
+object NavigationArgs {
+    const val MOVIE_ID = "movieId"
+}

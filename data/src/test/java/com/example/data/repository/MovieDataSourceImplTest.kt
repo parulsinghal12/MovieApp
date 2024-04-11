@@ -75,13 +75,13 @@ class MovieDataSourceImplTest {
     @Test
     fun `getMovies handles IOException`() = testScope.runTest {
         // Mock an IOException
-        coEvery { apiService.getMovies(BuildConfig.API_KEY) } throws IOException("Exception")
+        coEvery { apiService.getMovies(BuildConfig.API_KEY) } throws IOException(IO_EXCEPTION)
 
         // Execute the method under test
         val result = movieDataSource.getMovies()
 
         when (val errorResult = result) {
-            is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains("IO"))
+            is com.example.domain.usecase.Response.Failure -> assertTrue(errorResult.message.contains(IO_EXCEPTION))
             else -> fail(FAILURE + errorResult)
         }
     }

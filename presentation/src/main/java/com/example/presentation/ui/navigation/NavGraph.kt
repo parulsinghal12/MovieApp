@@ -31,7 +31,7 @@ fun NavGraph (navController: NavHostController = rememberNavController(),
 
         composable(route = NavDestinations.MOVIE_DETAIL_SCREEN_DESTINATION.destination,
             arguments = listOf(
-                navArgument("movieId") { type = NavType.IntType }
+                navArgument(NavigationArgs.MOVIE_ID) { type = NavType.IntType }
             )) {
             toolBarTitle.value = stringResource(id = R.string.app_name)
             secondaryScreenHeader.value = true

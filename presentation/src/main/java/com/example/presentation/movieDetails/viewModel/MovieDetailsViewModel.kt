@@ -8,6 +8,7 @@ import com.example.domain.usecase.Response
 import com.example.presentation.contract.NoOpSideEffect
 import com.example.presentation.mapper.toMovieDetailUiModel
 import com.example.presentation.movieDetails.contract.MovieDetailContract
+import com.example.presentation.ui.navigation.NavigationArgs
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +36,7 @@ class MovieDetailsViewModel @Inject constructor(
     override val sideEffect: SharedFlow<NoOpSideEffect> = MutableSharedFlow()
 
     init {
-        val movieId = savedStateHandle.get<Int>("movieId") ?: throw IllegalArgumentException("Movie ID not found")
+        val movieId = savedStateHandle.get<Int>(NavigationArgs.MOVIE_ID) ?: throw IllegalArgumentException()
         sendEvent(MovieDetailContract.ViewIntent.GetMovieDetails(movieId))
     }
 
