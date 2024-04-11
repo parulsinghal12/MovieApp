@@ -50,6 +50,7 @@ android {
 dependencies {
 
     implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":common")))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

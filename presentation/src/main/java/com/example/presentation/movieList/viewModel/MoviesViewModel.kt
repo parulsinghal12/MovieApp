@@ -2,12 +2,13 @@ package com.example.presentation.movieList.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.common.di.IoDispatcher
 import com.example.domain.usecase.GetMovieListUsecase
 import com.example.domain.usecase.Response
 import com.example.presentation.mapper.toMovieListUiModel
 import com.example.presentation.movieList.contract.MovieListContract
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
-    val getMovieListUsecase: GetMovieListUsecase
+    val getMovieListUsecase: GetMovieListUsecase,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel(), MovieListContract {
 
     private val _state = MutableStateFlow(value = loadingState())
@@ -53,12 +55,12 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    override fun loadingState(): MovieListContract.ViewState{
+    override fun loadingState(): MovieListContract.ViewState {
         return  MovieListContract.ViewState.Loading
     }
 
     private fun getMoviesList() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
 
             val response = getMovieListUsecase()
             when (response) {
@@ -69,6 +71,4 @@ class MoviesViewModel @Inject constructor(
             }
         }
     }
-
-
 }

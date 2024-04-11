@@ -3,15 +3,15 @@ package com.example.presentation.movieDetails.viewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.common.di.IoDispatcher
 import com.example.domain.usecase.GetMovieDetailUsecase
 import com.example.domain.usecase.Response
 import com.example.presentation.contract.NoOpSideEffect
 import com.example.presentation.mapper.toMovieDetailUiModel
 import com.example.presentation.movieDetails.contract.MovieDetailContract
 import com.example.presentation.ui.navigation.NavigationArgs
-
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -23,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     val getMovieDetailUsecase: GetMovieDetailUsecase,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel(), MovieDetailContract {
 
     private val _state = MutableStateFlow(value = loadingState())
@@ -52,7 +53,7 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun getMovieDetail(movieId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
 
             val response = getMovieDetailUsecase(movieId)
             when (response) {
