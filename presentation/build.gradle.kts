@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.androidLibrary)  // Parul doubt - when to use "apply false"?
+    alias(libs.plugins.androidLibrary)
     kotlin("kapt")
     alias(libs.plugins.hilt)
 }
