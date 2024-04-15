@@ -3,7 +3,7 @@ package com.example.presentation.movieDetails.viewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.di.IoDispatcher
+import com.example.presentation.di.IoDispatcher
 import com.example.domain.usecase.GetMovieDetailUsecase
 import com.example.domain.usecase.Response
 import com.example.presentation.contract.NoOpSideEffect

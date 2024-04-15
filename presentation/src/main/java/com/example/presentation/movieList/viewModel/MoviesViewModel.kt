@@ -2,7 +2,7 @@ package com.example.presentation.movieList.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.di.IoDispatcher
+import com.example.presentation.di.IoDispatcher
 import com.example.domain.usecase.GetMovieListUsecase
 import com.example.domain.usecase.Response
 import com.example.presentation.mapper.toMovieListUiModel
