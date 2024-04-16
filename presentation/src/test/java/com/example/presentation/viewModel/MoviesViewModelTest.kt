@@ -23,9 +23,6 @@ import org.junit.Test
 class MoviesViewModelTest {
 
     @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule() // instant live updates
-
-    @get:Rule
     val dispatcherRule = DispatcherRule()
 
     private val getMovieListUsecase: GetMovieListUsecase = mockk(relaxed = true)

@@ -28,9 +28,6 @@ import org.junit.Test
 class MovieDetailsViewModelTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
     val dispatcherRule = DispatcherRule()
 
     private var getMovieDetailUsecase = mockk<GetMovieDetailUsecase>(relaxed = true)
