@@ -9,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
@@ -25,7 +24,6 @@ fun MoviesScreen(
     selectedMovie: (Int) -> Unit
 ) {
     val resultValue = moviesViewModel.viewState.collectAsState()
-    val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit, block = {
 

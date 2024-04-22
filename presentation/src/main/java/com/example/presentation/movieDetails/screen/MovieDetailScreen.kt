@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
@@ -21,7 +20,6 @@ import com.example.presentation.ui.components.ErrorView
 fun MovieDetailsScreen(movieDetailViewModel: MovieDetailsViewModel = hiltViewModel()) {
 
     val resultValue = movieDetailViewModel.viewState.collectAsState()
-    val context = LocalContext.current
 
     when (resultValue.value) {
 
