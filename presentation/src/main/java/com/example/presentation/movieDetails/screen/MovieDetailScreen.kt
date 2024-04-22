@@ -1,6 +1,5 @@
 package com.example.presentation.movieDetails.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +15,7 @@ import com.example.presentation.R
 import com.example.presentation.movieDetails.contract.MovieDetailContract
 import com.example.presentation.movieDetails.viewModel.MovieDetailsViewModel
 import com.example.presentation.ui.components.CustomTextView
+import com.example.presentation.ui.components.ErrorView
 
 @Composable
 fun MovieDetailsScreen(movieDetailViewModel: MovieDetailsViewModel = hiltViewModel()) {
@@ -25,11 +25,8 @@ fun MovieDetailsScreen(movieDetailViewModel: MovieDetailsViewModel = hiltViewMod
 
     when (resultValue.value) {
 
-        is MovieDetailContract.ViewState.Error -> Toast.makeText(
-            context,
-            ((resultValue.value as MovieDetailContract.ViewState.Error).message),
-            Toast.LENGTH_SHORT
-        ).show()
+        is MovieDetailContract.ViewState.Error ->
+            ErrorView((resultValue.value as MovieDetailContract.ViewState.Error).message)
 
         MovieDetailContract.ViewState.Loading -> Column {
             CustomTextView(

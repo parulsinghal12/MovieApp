@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun CustomTextView(
@@ -22,6 +23,25 @@ fun CustomTextView(
         modifier = modifier,
         color = color,
         maxLines = maxLines
+    )
+}
+
+@Composable
+fun CustomErrorTextView(
+    text: String,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Gray,
+    maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign = TextAlign.Center
+) {
+    Text(
+        text = text,
+        style = style,
+        modifier = modifier,
+        color = color,
+        maxLines = maxLines,
+        textAlign = textAlign
     )
 }
 

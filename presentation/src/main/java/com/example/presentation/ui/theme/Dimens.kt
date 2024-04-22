@@ -17,4 +17,5 @@ object Dimens {
     val textPaddingBottom = 4.dp
     val spacerHeight4dp = 4.dp
     val movieContentViewVerticalScrollSpacerHeight = 10.dp
+    val errorIconSize = 48.dp
 }
